@@ -1,0 +1,44 @@
+logger:
+  levels:
+  #    io.micronaut.data: TRACE
+  #    io.micronaut.http: TRACE
+
+datasources:
+  default:
+    url: jdbc:tc:postgresql:14.2:///template
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+    username: postgres
+    password: postgres
+    dialect: POSTGRES
+
+flyway:
+  datasources:
+    default:
+      enabled: true
+
+testcontainers:
+  reuse:
+    enable: true
+
+kafka:
+  schema.registry.url: mock://schema-registry
+  basic.auth.credentials.source: URL
+  basic.auth.user.info: ''
+  auto.register.schemas: true
+  enabled: true
+  bootstrap:
+    servers: ${KAFKA_URL:`localhost:9092`}
+  consumers:
+    default:
+      auto.offset.reset: earliest
+
+tm-client:
+  consumer:
+    group-id: ${micronaut.application.name}
+  bootstrap:
+    servers: ${kafka.bootstrap.servers}
+
+vida:
+  mock: validate
+
+product-manager-api-client-base-path:  ${SAFI_PRODUCT_MANAGER_URL:`https://product-manager.apps.fake.domain`}

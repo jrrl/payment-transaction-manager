@@ -1,0 +1,68 @@
+micronaut:
+  application:
+    name: payment-transaction-manager
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
+  security:
+    enabled: false
+
+datasources:
+  default:
+    url: ${DB_URL}
+    driverClassName: org.postgresql.Driver
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    schema-generate: NONE
+    dialect: POSTGRES
+netty:
+  default:
+    allocator:
+      max-order: 3
+flyway:
+  datasources:
+    default:
+      enabled: false
+
+kafka:
+  schema.registry.url: ${SCHEMA_REGISTRY_URL}
+  bootstrap:
+    servers: ${KAFKA_URL}
+  basic.auth.credentials.source: USER_INFO
+  basic.auth.user.info: ${KAFKA_SCHEMA_REGISTRY_CRED}
+
+tm-client:
+  posting:
+    client: AsyncCreatePostingInstructionBatch
+    listener-level: client
+  consumer:
+    group-id: ${TM_KAFKA_CONSUMER_GROUP}
+  bootstrap:
+    servers: ${TM_KAFKA_URL}
+
+endpoints:
+  health:
+    enabled: true
+    sensitive: false
+  prometheus:
+    enabled: true
+    sensitive: false
+  metrics:
+    enabled: false
+
+account-manager-api-client-base-path: ${SAFI_ACCOUNT_MANAGER_URL}
+
+vida:
+  url: https://credentialservices.auth-test.vida.id/api/v1
+  timeout: 1440
+  mock: novalidation
+
+common:
+  idempotency:
+    postgres:
+      autoconfigure: true
