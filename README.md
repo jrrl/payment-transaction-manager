@@ -1,6 +1,9 @@
 # payment-transaction-manager HOWTO
 
-Used to demonstrate best practices and NFR Pull Requests.
+## Introduction
+
+The payment-transaction-manager is the service that handles the lifecycle of different types of payments, 
+such as bill payments, airtime loads, etc. 
 
 ## General config
 
@@ -24,6 +27,12 @@ Code is structured as follows:
 * `src/main` - for module code
 * `src/test` - for unit testing
 * `src/itest` - for integration testing
+
+The code inside `src/main` has the following structure: 
+
+* `core` - contains the core domain logic of the service. It should have no dependency to other top level packages. 
+* `infra` - contains the actual implementation for the services that the use cases call
+* `api` - contains code for exposing the actual functionalities of the service, such as via REST, queues, etc
 
 ### Running
 
